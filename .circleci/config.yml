@@ -5,7 +5,7 @@ jobs:
   build:
     working_directory: ~/gourmet-admin
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:latest
     steps:
       - checkout
       - restore_cache:
