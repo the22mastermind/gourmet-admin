@@ -40,7 +40,7 @@ jobs:
   e2e:
     working_directory: ~/gourmet-admin
     docker:
-      - image: circleci/node:latest
+      - image: cypress/base:10
     steps:
       - checkout
       - restore_cache:
@@ -65,12 +65,15 @@ workflows:
             - run:
                 name: Upload coverage to codecov
                 command: yarn test:coverage
+      - cypress/install
       - e2e:
           requires:
-            - tests
+            - cypress/install
           post-steps:
             - run:
                 name: Upload end to end coverage to coveralls
                 command: yarn e2e:coverage
             - store_artifacts:
+                path: cypress_coverage
+            - store_test_results:
                 path: cypress_coverage
