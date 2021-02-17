@@ -7,7 +7,7 @@ module.exports = {
     '!./src/reportWebVitals.js',
   ],
   coverageDirectory: './coverage/',
-  coverageReporters: ['text', 'html'],
+  coverageReporters: ['text', 'lcov'],
   setupFilesAfterEnv: ['./src/setupTests.js'],
   testPathIgnorePatterns: [
     'node_modules',
