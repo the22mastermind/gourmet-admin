@@ -1,0 +1,61 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true,
+    },
+    "extends": [
+        "plugin:react/recommended",
+        "airbnb",
+        "plugin:testing-library/recommended",
+        "plugin:testing-library/react",
+        "plugin:cypress/recommended"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "react-hooks",
+        "testing-library",
+        "cypress"
+    ],
+    "rules": {
+        "testing-library/await-async-query": "error",
+        "testing-library/no-await-sync-query": "error",
+        "testing-library/no-debug": "warn",
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [".js", ".jsx"]
+            }
+        ],
+        "react/prop-types": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "import/prefer-default-export": "off",
+        "object-curly-newline": [
+            "error",
+            {
+                "ImportDeclaration": {
+                    "multiline": true,
+                    "minProperties": 6
+                }
+            }
+        ],
+        "react/jsx-props-no-spreading": "off",
+        "import/no-extraneous-dependencies": "off"
+    },
+    "globals": {
+        "jest": true,
+        "describe": true,
+        "beforeEach": true,
+        "afterEach": true,
+        "afterAll": true,
+        "test": true,
+        "expect": true
+    }
+}
