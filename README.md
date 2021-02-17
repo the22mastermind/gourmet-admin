@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/the22mastermind/gourmet-admin/badge.svg?branch=main)](https://coveralls.io/github/the22mastermind/gourmet-admin?branch=main)
+[![CircleCI](https://circleci.com/gh/the22mastermind/gourmet-admin.svg?style=shield)](https://app.circleci.com/pipelines/github/the22mastermind/gourmet-admin?branch=main) [![Coverage Status](https://coveralls.io/repos/github/the22mastermind/gourmet-admin/badge.svg?branch=main)](https://coveralls.io/github/the22mastermind/gourmet-admin?branch=main) [![codecov](https://codecov.io/gh/the22mastermind/gourmet-admin/branch/main/graph/badge.svg?token=G3NH2RPAZJ)](https://codecov.io/gh/the22mastermind/gourmet-admin)
 
 # Gourmet Admin
 Admin portal for Gourmet Online Food Ordering App
