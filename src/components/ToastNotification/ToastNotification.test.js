@@ -31,7 +31,7 @@ test('Renders an info <ToastNotification /> component', () => {
 test('Closes the <ToastNotification />', async () => {
   render(<ToastNotification severity="info" {...props} />);
   const button = screen.getByRole('button');
-  
+
   await act(async () => {
     fireEvent.click(button);
   });

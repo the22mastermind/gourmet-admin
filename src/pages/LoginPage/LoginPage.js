@@ -47,8 +47,7 @@ const LoginPage = () => {
             ...response.data.data,
           },
         };
-        // const { from } = location.state || { from: { pathname: '/dashboard' } };
-        const from =  { pathname: '/dashboard' };
+        const from = { pathname: '/dashboard' };
         await loginUser(payload, from);
       }
     }

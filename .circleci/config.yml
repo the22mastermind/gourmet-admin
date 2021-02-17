@@ -22,31 +22,37 @@ jobs:
           paths:
             - ~/.cache
   - tests:
-    steps:
-      - run:
-          name: Run unit and integration tests
-          command: yarn test
-      - run:
-          name: Upload coverage to codecov
-          command: yarn test:coverage
+      docker:
+        - image: circleci/node:latest
+      steps:
+        - run:
+            name: Run unit and integration tests
+            command: yarn test
   - e2e:
-    steps:
-      - run:
-        name: Run end to end tests
-        command: yarn test:e2e:ci
-      - store-artifacts:
-          path: cypress_coverage
-      - run:
-        name: Upload end to end coverage to coveralls
-        command: yarn e2e:coverage
+      docker:
+        - image: circleci/node:latest
+      steps:
+        - run:
+          name: Run end to end tests
+          command: yarn test:e2e:ci
 workflows:
   version: 2
   unit_and_e2e_tests:
     jobs:
       - build
       - tests:
-        requires:
-          - build
+          requires:
+            - build
+          post-steps:
+            - run:
+                name: Upload coverage to codecov
+                command: yarn test:coverage
       - e2e:
-        requires:
-          - tests
+          requires:
+            - tests
+          post-steps:
+            - run:
+                name: Upload end to end coverage to coveralls
+                command: yarn e2e:coverage
+            - store-artifacts:
+                path: cypress_coverage

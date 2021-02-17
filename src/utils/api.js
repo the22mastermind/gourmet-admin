@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const baseUrl = 'http://localhost:4000';
+export const baseUrl = 'https://gourmetfood-api.herokuapp.com';
 
 /**
  * @description Returns the api response
@@ -10,7 +10,6 @@ export const baseUrl = 'http://localhost:4000';
  * @returns {object} Object containing status and data or status and error
  */
 const apiResponse = (status, data, error) => {
-  // if (status && status === 200) {
   if (status && data) {
     return { status, data };
   } if (error && error.response) {
@@ -29,7 +28,7 @@ const getToken = async () => {
   const auth = await JSON.parse(sessionStorage.getItem('auth'));
   const { token } = auth.user;
   return token;
-}
+};
 
 export const loginService = async (payload) => {
   try {
@@ -55,7 +54,7 @@ export const logoutService = async () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
     return apiResponse(status, data, null);

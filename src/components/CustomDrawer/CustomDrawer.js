@@ -76,10 +76,9 @@ const CustomDrawer = ({ auth }) => {
       setShowToast(true);
       setLoading(false);
     } else {
-      const { message } = response.data;
       setMessage({
         type: 'success',
-        text: message,
+        text: response.data.message,
       });
       setShowToast(true);
       setTimeout(async () => {
@@ -153,7 +152,8 @@ const CustomDrawer = ({ auth }) => {
         </Toolbar>
       </AppBar>
       <Drawer
-        anchor="left" open={drawerOpen}
+        anchor="left"
+        open={drawerOpen}
         onClose={toggleDrawer}
         variant="temporary"
         className={classes.drawer}

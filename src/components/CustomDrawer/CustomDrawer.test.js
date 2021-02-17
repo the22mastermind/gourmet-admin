@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import userEvent from '@testing-library/user-event';
+import MockAdapter from 'axios-mock-adapter';
 import { render, screen, waitFor, act } from '../../customRender';
 import CustomDrawer from './CustomDrawer';
-import MockAdapter from 'axios-mock-adapter';
 import { baseUrl } from '../../utils/api';
 
 const mockAxios = new MockAdapter(axios);
