@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@4.0.0
+  cypress: cypress-io/cypress@1
 jobs:
   build:
     working_directory: ~/gourmet-admin
@@ -14,12 +15,64 @@ jobs:
             - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: yarn install --frozen-lockfile
       - save_cache:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
-            - ~/.cache/yarn
+            - ~/.cache
+  tests:
+    working_directory: ~/gourmet-admin
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
-          name: Run Tests
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+      - run:
+          name: Run unit and integration tests
           command: yarn test
+  e2e:
+    working_directory: ~/gourmet-admin
+    docker:
+      - image: cypress/base:10
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+      - run:
+          name: Run end to end tests
+          command: yarn test:e2e:ci
+workflows:
+  version: 2
+  unit_and_e2e_tests:
+    jobs:
+      - build
+      - tests:
+          requires:
+            - build
+          post-steps:
+            - run:
+                name: Upload coverage to codecov
+                command: yarn test:coverage
+      - cypress/run:
+          yarn: true
+          start: yarn start:ci
+          post-steps:
+            - run:
+                name: Upload end to end coverage to coveralls
+                command: yarn e2e:coverage
+            - store_artifacts:
+                path: cypress_coverage
+            - store_test_results:
+                path: cypress_coverage

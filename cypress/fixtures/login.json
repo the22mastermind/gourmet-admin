@@ -1,0 +1,9 @@
+{
+  "token": "someverylongtoken",
+  "data": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "admin",
+    "status": true
+  }
+}

@@ -3,19 +3,38 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.1",
+    "cross-env": "^7.0.3",
+    "history": "^5.0.0",
+    "parcel": "^1.12.4",
+    "parcel-bundler": "^1.12.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-hook-form": "^6.15.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
+    "regenerator-runtime": "^0.13.7",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "parcel public/index.html",
+    "start:ci": "cross-env NODE_ENV=dev parcel public/index.html",
+    "build": "parcel build public/index.html --out-dir build --no-source-maps",
+    "test": "jest",
+    "eject": "react-scripts eject",
+    "lint": "yarn run eslint src/",
+    "cy": "cypress open",
+    "cy:ci": "cypress run --browser chrome --headless",
+    "test:e2e": "start-server-and-test start:ci http://localhost:1234 cy",
+    "test:e2e:ci": "start-server-and-test start:ci http://localhost:1234 cy:ci",
+    "e2e:coverage": "nyc report --reporter=text-lcov | coveralls",
+    "test:coverage": "codecov"
   },
   "eslintConfig": {
     "extends": [
@@ -33,6 +52,48 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.13",
+    "@babel/preset-env": "^7.12.13",
+    "@babel/preset-react": "^7.12.13",
+    "@cypress/code-coverage": "^3.9.2",
+    "@testing-library/cypress": "^7.0.3",
+    "axios-mock-adapter": "^1.19.0",
+    "babel-jest": "^26.6.3",
+    "babel-plugin-istanbul": "^6.0.0",
+    "codecov": "^3.8.1",
+    "coveralls": "^3.1.0",
+    "cypress": "^6.4.0",
+    "eslint": "^7.20.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-cypress": "^2.11.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4",
+    "eslint-plugin-testing-library": "^3.10.1",
+    "jest": "^26.6.3",
+    "nyc": "^15.1.0",
+    "start-server-and-test": "^1.12.0"
+  },
+  "nyc": {
+    "all": true,
+    "sourceMap": false,
+    "instrument": false,
+    "exclude": [
+      "coverage",
+      "cypress",
+      "dist/",
+      "*.js",
+      "src/**/**/*.test.js",
+      "src/reportWebVitals.js"
+    ],
+    "report-dir": "cypress_coverage",
+    "reporter": [
+      "text-lcov",
+      "html"
     ]
   }
 }
