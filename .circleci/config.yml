@@ -22,13 +22,23 @@ jobs:
           paths:
             - ~/.cache
   tests:
+    working_directory: ~/gourmet-admin
     docker:
       - image: circleci/node:latest
     steps:
+      - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
       - run:
           name: Run unit and integration tests
           command: yarn test
   e2e:
+    working_directory: ~/gourmet-admin
     docker:
       - image: circleci/node:latest
     steps:
