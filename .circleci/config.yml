@@ -65,10 +65,9 @@ workflows:
             - run:
                 name: Upload coverage to codecov
                 command: yarn test:coverage
-      - cypress/install
-      - e2e:
-          requires:
-            - cypress/install
+      - cypress/run:
+          yarn: true
+          start: yarn start:ci
           post-steps:
             - run:
                 name: Upload end to end coverage to coveralls
