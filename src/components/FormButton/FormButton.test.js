@@ -1,6 +1,6 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render, screen } from '../../customRender';
+import { render, screen } from 'customRender';
 import FormButton from './FormButton';
 
 const props = {

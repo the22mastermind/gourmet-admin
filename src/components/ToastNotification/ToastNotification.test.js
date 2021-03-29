@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, act, waitFor } from '../../customRender';
+import { render, screen, fireEvent, act, waitFor } from 'customRender';
 import ToastNotification from './ToastNotification';
 
 const props = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '../../customRender';
+import { render, screen, fireEvent } from 'customRender';
 import FormInput from './FormInput';
 
 const props = {

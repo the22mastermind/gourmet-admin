@@ -95,7 +95,12 @@ const SelectModal = ({ openStatus, toggleOpenStatus, orderStatus, orderId }) => 
               rules={{ required: true }}
             >
               {options.map((option) => (
-                <MenuItem key={option.id} value={option.value}>{option.label}</MenuItem>
+                <MenuItem
+                  key={option.id}
+                  value={option.value}
+                >
+                  {option.label}
+                </MenuItem>
               ))}
             </FormSelect>
           </form>
