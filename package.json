@@ -11,7 +11,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "cross-env": "^7.0.3",
-    "history": "^5.0.0",
+    "history": "4.10.1",
     "parcel": "^1.12.4",
     "parcel-bundler": "^1.12.4",
     "react": "^17.0.1",
@@ -19,6 +19,7 @@
     "react-hook-form": "^6.15.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
+    "react-spring": "^8.0.27",
     "regenerator-runtime": "^0.13.7",
     "web-vitals": "^1.0.1"
   },

@@ -12,6 +12,9 @@ describe('Authentication', () => {
   });
 
   it('Should trigger network error', () => {
+    // Mock API response for failed logout
+    cy.intercept('GET', '/api/auth/login', { statusCode: 503, body: { error: 'Network Error' } });
+
     // Invalid credentials
     cy.get('form').within(() => {
       cy.findByLabelText('phoneNumber').type('+250721111100').should('have.value', '+250721111100');
@@ -99,6 +102,8 @@ describe('Authentication', () => {
   it('Should log in, open drawer, then trigger token error on logout', () => {
     // Mock API response for login
     cy.intercept('POST', '/api/auth/login', {fixture: 'login.json' });
+    // Mock API response for fetch orders list
+    cy.intercept('GET', '/api/admin/orders', { statusCode: 404, body: { error: 'No orders found at the moment' } });
     // Mock API response for failed logout
     cy.intercept('GET', '/api/auth/logout', { statusCode: 401, body: { error: 'Invalid token, please login and try again' } });
     
@@ -113,7 +118,13 @@ describe('Authentication', () => {
 
     // Should be redirected to the dashboard
     cy.url().should('include', '/dashboard');
-    cy.findByText('Orders list goes here').should('exist');
+    cy.findByText('Orders list').should('exist');
+    cy.findByText('No orders found at the moment').should('exist');
+
+    // Close no orders found snackbar
+    cy.findByRole('alert').within(() => {
+      cy.findByRole('button').click();
+    });
 
     // Open drawer
     cy.findByText('Gourmet Dashboard').click();
@@ -149,7 +160,7 @@ describe('Authentication', () => {
 
     // Should be redirected to the dashboard
     cy.url().should('include', '/dashboard');
-    cy.findByText('Orders list goes here').should('exist');
+    cy.findByText('Orders list').should('exist');
 
     // Open Menu then log out
     cy.get('[data-testid=header-menu-button]').click();

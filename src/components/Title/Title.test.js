@@ -16,6 +16,6 @@ test('Renders <Title /> component', () => {
 });
 
 test('<Title /> component should match snapshot', () => {
-  render(<Title />);
+  render(<Title {...props} />);
   expect(screen).toMatchSnapshot();
 });

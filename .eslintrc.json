@@ -35,7 +35,7 @@
         ],
         "react/prop-types": "off",
         "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn",
+        "react-hooks/exhaustive-deps": "off",
         "import/prefer-default-export": "off",
         "object-curly-newline": [
             "error",
@@ -47,7 +47,14 @@
             }
         ],
         "react/jsx-props-no-spreading": "off",
-        "import/no-extraneous-dependencies": "off"
+        "import/no-extraneous-dependencies": "off",
+        "no-nested-ternary": "off",
+        "import/no-unresolved": [
+            2,
+            {
+                "ignore": ["*.test.js"]
+            }
+        ]
     },
     "globals": {
         "jest": true,

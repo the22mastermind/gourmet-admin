@@ -11,15 +11,15 @@ Gourmet Admin is a web app that helps the admin/manager of Gourmet restaurant to
 ## Features
 
 - [x] Authentication (Login and Logout)
-- [] View Orders List
-- [] View Single Order
-- [] Update Order Status
+- [x] View Orders List
+- [x] View Single Order
+- [x] Update Order Status
 
 ## Technologies/tools used
 
 - React
 - Material UI
-- React Hoof Form
+- React Hook Form
 - React Testing Library
 - Parcel
 - React Router Dom

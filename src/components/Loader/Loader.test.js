@@ -1,14 +1,16 @@
 import React from 'react';
-import { render, screen } from '../../customRender';
+import { render, screen } from 'customRender';
 import Loader from './Loader';
 
-test('Renders <Loader /> component', () => {
-  render(<Loader color="primary" data-testid="loader" />);
-  const component = screen.getByTestId('loader');
-  expect(component).toBeInTheDocument();
-});
-
-test('<Loader /> component should match snapshot', () => {
-  render(<Loader />);
-  expect(screen).toMatchSnapshot();
+describe('<Loader />', () => {
+  test('Renders <Loader /> component', () => {
+    render(<Loader color="secondary" />);
+    const component = screen.getByTestId('loader');
+    expect(component).toBeInTheDocument();
+  });
+  
+  test('<Loader /> component should match snapshot', () => {
+    render(<Loader color="secondary" />);
+    expect(screen).toMatchSnapshot();
+  });
 });

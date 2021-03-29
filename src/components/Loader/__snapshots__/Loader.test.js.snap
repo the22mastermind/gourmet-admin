@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Loader /> component should match snapshot 1`] = `
+exports[`<Loader /> <Loader /> component should match snapshot 1`] = `
 Object {
   "debug": [Function],
   "findAllByAltText": [Function],
