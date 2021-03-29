@@ -50,7 +50,7 @@ const CustomTable = ({ tableHeadings, data }) => {
 
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
+      <Table aria-label="collapsible table"  data-testid="orders-table">
         <TableHead>
           {renderHeader(tableHeadings)}
         </TableHead>

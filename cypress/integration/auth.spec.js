@@ -13,7 +13,7 @@ describe('Authentication', () => {
 
   it('Should trigger network error', () => {
     // Mock API response for failed logout
-    cy.intercept('GET', '/api/auth/login', { statusCode: 503, body: { error: 'Network Error' } });
+    cy.intercept('POST', '/api/auth/login', { statusCode: 503, body: { error: 'Network Error' } });
 
     // Invalid credentials
     cy.get('form').within(() => {
@@ -119,7 +119,10 @@ describe('Authentication', () => {
     // Should be redirected to the dashboard
     cy.url().should('include', '/dashboard');
     cy.findByText('Orders list').should('exist');
-    cy.findByText('No orders found at the moment').should('exist');
+    // Table body should show 'No orders found' message
+    cy.get('[data-testid=orders-table]').within(() => {
+      cy.findByText('No orders found at the moment').should('exist');
+    });
 
     // Close no orders found snackbar
     cy.findByRole('alert').within(() => {
@@ -146,6 +149,8 @@ describe('Authentication', () => {
   it('Should log in, then log out', () => {
     // Mock API response for login
     cy.intercept('POST', '/api/auth/login', {fixture: 'login.json' });
+    // Mock API response for fetch orders list
+    cy.intercept('GET', '/api/admin/orders', { statusCode: 404, body: { error: 'No orders found at the moment' } });
     // Mock API response for successful logout
     cy.intercept('GET', '/api/auth/logout', { statusCode: 200, body: { message: 'Logged out successfully' } });
     
