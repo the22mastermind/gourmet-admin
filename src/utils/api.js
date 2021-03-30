@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const baseUrl = 'https://gourmetfood-api.herokuapp.com';
+// export const baseUrl = 'http://localhost:4000';
 
 /**
  * @description Returns the api response
@@ -25,18 +26,19 @@ const apiResponse = (status, data, error) => {
  * @returns {string} Token string
  */
 const getToken = async () => {
-  const auth = await JSON.parse(sessionStorage.getItem('auth'));
-  const { token } = auth.user;
+  const token = await JSON.parse(sessionStorage.getItem('token'));
   return token;
 };
 
-export const loginService = async (payload) => {
+export const postService = async (url, payload) => {
   try {
+    const token = await getToken();
     const { status, data } = await axios({
-      url: `${baseUrl}/api/auth/login`,
+      url: `${baseUrl}${url}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}` || '',
       },
       data: payload,
     });
@@ -46,16 +48,34 @@ export const loginService = async (payload) => {
   }
 };
 
-export const logoutService = async () => {
+export const getService = async (url) => {
   try {
     const token = await getToken();
     const { status, data } = await axios({
-      url: `${baseUrl}/api/auth/logout`,
+      url: `${baseUrl}${url}`,
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}` || '',
       },
+    });
+    return apiResponse(status, data, null);
+  } catch (error) {
+    return apiResponse(null, null, error);
+  }
+};
+
+export const updateService = async (url, payload) => {
+  try {
+    const token = await getToken();
+    const { status, data } = await axios({
+      url: `${baseUrl}${url}`,
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}` || '',
+      },
+      data: payload,
     });
     return apiResponse(status, data, null);
   } catch (error) {

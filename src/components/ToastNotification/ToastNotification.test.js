@@ -1,13 +1,12 @@
 import React from 'react';
-import { render, screen, fireEvent, act, waitFor } from '../../customRender';
+import { render, screen, fireEvent, act, waitFor } from 'customRender';
 import ToastNotification from './ToastNotification';
 
 const props = {
   autoHideDuration: 5000,
   variant: 'filled',
   text: 'This is a notification message',
-  showToast: true,
-  setShowToast: jest.fn(),
+  handleCloseAlert: jest.fn(),
 };
 
 test('Renders a success <ToastNotification /> component', () => {
@@ -37,5 +36,6 @@ test('Closes the <ToastNotification />', async () => {
   });
   await waitFor(() => {
     expect(fireEvent.click(button)).toBeTruthy();
+    expect(props.handleCloseAlert).toHaveBeenCalled();
   });
 });

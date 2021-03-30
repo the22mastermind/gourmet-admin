@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,8 +17,10 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Loader from '../Loader/Loader';
 import ToastNotification from '../ToastNotification/ToastNotification';
+import OrdersListPage from '../../pages/OrdersListPage/OrdersListPage';
 import { AuthContext } from '../../context/AuthState';
-import { logoutService } from '../../utils/api';
+import { AlertContext } from '../../context/AlertState';
+import { getService } from '../../utils/api';
 
 const drawerWidth = 240;
 
@@ -53,10 +56,9 @@ const useStyles = makeStyles((theme) => ({
 const CustomDrawer = ({ auth }) => {
   const classes = useStyles();
   const { logoutUser } = useContext(AuthContext);
+  const { alert, showAlert, clearAlert } = useContext(AlertContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState(null);
-  const [showToast, setShowToast] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const open = Boolean(anchorEl);
 
@@ -64,26 +66,28 @@ const CustomDrawer = ({ auth }) => {
     setAnchorEl(null);
   };
 
+  const handleCloseAlert = async () => {
+    await clearAlert();
+  };
+
   const handleLogout = async () => {
     handleClose();
     setLoading(true);
-    const response = await logoutService();
-    if (response.status !== 200) {
-      setMessage({
+    const { status, data, error } = await getService('/api/auth/logout');
+    if (status !== 200) {
+      showAlert({
         type: 'error',
-        text: response.error,
+        text: error,
       });
-      setShowToast(true);
       setLoading(false);
     } else {
-      setMessage({
+      showAlert({
         type: 'success',
-        text: response.data.message,
+        text: data.message,
       });
-      setShowToast(true);
       setTimeout(async () => {
         await logoutUser();
-      }, 2500);
+      }, 2000);
     }
   };
 
@@ -177,20 +181,33 @@ const CustomDrawer = ({ auth }) => {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
-        <Typography paragraph>
-          Orders list goes here
-        </Typography>
+        <OrdersListPage />
       </main>
-      <ToastNotification
-        autoHideDuration={5000}
-        variant="filled"
-        severity={message?.type}
-        text={message?.text}
-        showToast={showToast}
-        setShowToast={setShowToast}
-      />
+      {alert ? (
+        <ToastNotification
+          autoHideDuration={5000}
+          variant="filled"
+          severity={alert?.type}
+          text={alert?.text}
+          handleCloseAlert={handleCloseAlert}
+        />
+      ) : null}
     </div>
   );
+};
+
+CustomDrawer.propTypes = {
+  auth: PropTypes.shape({
+    authenticated: PropTypes.bool.isRequired,
+    user: PropTypes.shape({
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired,
+      phoneNumber: PropTypes.string.isRequired,
+      address: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired,
+      status: PropTypes.bool.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default CustomDrawer;

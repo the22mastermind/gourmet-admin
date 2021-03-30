@@ -11,12 +11,13 @@ export const AuthContext = createContext(initialState);
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  function loginUser(data, from) {
+  function loginUser(token, data, from) {
+    sessionStorage.setItem('auth', JSON.stringify(data));
+    sessionStorage.setItem('token', JSON.stringify(token));
     dispatch({
       type: 'AUTH_LOGIN',
       payload: data,
     });
-    sessionStorage.setItem('auth', JSON.stringify(data));
     history.push(from);
   }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -7,21 +8,20 @@ const ToastNotification = ({
   autoHideDuration,
   severity,
   text,
-  showToast,
-  setShowToast,
+  handleCloseAlert,
 }) => {
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    setShowToast(false);
+    handleCloseAlert();
   };
 
   return (
-    <div>
+    <div data-testid="alert-wrapper">
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        open={showToast}
+        open
         autoHideDuration={autoHideDuration}
         onClose={handleClose}
       >
@@ -31,6 +31,19 @@ const ToastNotification = ({
       </Snackbar>
     </div>
   );
+};
+
+ToastNotification.defaultProps = {
+  severity: 'error',
+  autoHideDuration: 5000,
+};
+
+ToastNotification.propTypes = {
+  variant: PropTypes.string.isRequired,
+  autoHideDuration: PropTypes.number,
+  severity: PropTypes.string,
+  text: PropTypes.string.isRequired,
+  handleCloseAlert: PropTypes.func.isRequired,
 };
 
 export default ToastNotification;

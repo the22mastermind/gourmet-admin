@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import userEvent from '@testing-library/user-event';
 import MockAdapter from 'axios-mock-adapter';
-import { render, screen, fireEvent, waitFor, act } from '../../customRender';
+import { render, screen, fireEvent, waitFor, act, within } from 'customRender';
 import LoginPage from './LoginPage';
 import { baseUrl } from '../../utils/api';
 
@@ -98,6 +98,13 @@ describe('<LoginPage />', () => {
     await waitFor(() => {
       expect(screen.queryByText('Network Error')).toBeInTheDocument();
       expect(window.sessionStorage.getItem('auth')).toBeNull();
+    });
+
+    const toastNotification = screen.getByTestId('alert-wrapper');
+
+    // Close alert
+    await act(async () => {
+      userEvent.click(within(toastNotification).getByRole('button'));
     });
   });
 

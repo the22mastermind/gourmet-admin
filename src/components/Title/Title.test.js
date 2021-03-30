@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '../../customRender';
+import { render, screen } from 'customRender';
 import Title from './Title';
 
 const props = {
@@ -16,6 +16,6 @@ test('Renders <Title /> component', () => {
 });
 
 test('<Title /> component should match snapshot', () => {
-  render(<Title />);
+  render(<Title {...props} />);
   expect(screen).toMatchSnapshot();
 });

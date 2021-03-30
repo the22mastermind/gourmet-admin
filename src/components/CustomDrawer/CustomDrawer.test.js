@@ -2,12 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import userEvent from '@testing-library/user-event';
 import MockAdapter from 'axios-mock-adapter';
-import { render, screen, waitFor, act } from '../../customRender';
+import { render, screen, waitFor, act, within } from 'customRender';
 import CustomDrawer from './CustomDrawer';
 import { baseUrl } from '../../utils/api';
 
 const mockAxios = new MockAdapter(axios);
-
 const props = {
   auth: {
     authenticated: true,
@@ -15,19 +14,77 @@ const props = {
       token: 'averylongtoken',
       firstName: 'Test',
       lastName: 'Admin',
+      phoneNumber: '+250741349700',
+      address: 'Kigali, Rwanda',
+      role: 'admin',
+      status: true,
     },
+  },
+};
+const mockedOrdersData = {
+  data: [
+    {
+      id: 2,
+      total: '8',
+      status: 'pending',
+      paymentId: '123456788',
+      userId: 3,
+      createdAt: new Date().toString(),
+      Contents: [{
+        itemId: 1,
+        itemName: 'BBQ Pizza',
+        cost: '8',
+        quantity: 1,
+      }],
+      User: {
+        id: 3,
+        firstName: 'Jane',
+        lastName: 'Doe',
+        address: 'Kigali, Rwanda',
+        phoneNumber: '+250734107888',
+      },
+    },
+    {
+      id: 1,
+      total: '20',
+      status: 'accepted',
+      paymentId: '123456789',
+      userId: 2,
+      createdAt: new Date().toString(),
+      Contents: [{
+        itemId: 5,
+        itemName: 'Chicken Pizza',
+        cost: '20',
+        quantity: 2,
+      }],
+      User: {
+        id: 2,
+        firstName: 'John',
+        lastName: 'Doe',
+        address: 'Kigali, Rwanda',
+        phoneNumber: '+250734107890',
+      },
+    },
+  ],
+};
+const mockedUpdatedOrderData = {
+  message: 'Order updated successfully',
+  data: {
+    id: 2,
+    total: '8',
+    status: 'pending',
+    paymentId: '123456788',
+    userId: 3,
   },
 };
 
 describe('<CustomDrawer />', () => {
-  beforeEach(() => {
-    render(<CustomDrawer {...props} />);
+  beforeEach(async () => {
+    mockAxios.onGet(`${baseUrl}/api/admin/orders`).reply(404, { error: 'Data not found' });
+    await act(async () => {
+      render(<CustomDrawer {...props} />);
+    });
   });
-  afterAll(() => {
-    mockAxios.reset();
-    mockAxios.restore();
-  });
-
   test('Renders title, logged-in user names, and logout button', async () => {
     // Open Menu
     await act(async () => {
@@ -107,5 +164,85 @@ describe('<CustomDrawer />', () => {
 
   test('<CustomDrawer /> component should match snapshot', () => {
     expect(screen).toMatchSnapshot();
+  });
+});
+
+describe('<OrdersListPage />', () => {
+  jest.setTimeout(10000);
+  beforeEach(async () => {
+    mockAxios.onGet(`${baseUrl}/api/admin/orders`).reply(200, mockedOrdersData);
+    await act(async () => {
+      render(<CustomDrawer {...props} />);
+    });
+  });
+  afterAll(() => {
+    mockAxios.reset();
+    mockAxios.restore();
+  });
+
+  test('Should display error or success messages on order status update', async () => {
+    await waitFor(() => {
+      expect(screen.getAllByTestId('row-details-button').length).toBe(2);
+    });
+
+    await act(async () => {
+      userEvent.click(screen.getAllByTestId('row-details-button')[0]);
+    });
+
+    const panel = screen.getAllByTestId('row-details-panel')[0];
+
+    await waitFor(() => {
+      expect(within(panel).queryByText('Order #2 details')).toBeTruthy();
+      expect(within(panel).queryByText('BBQ Pizza')).toBeTruthy();
+      expect(within(panel).getByTestId('update-status-button')).toBeTruthy();
+      expect(within(panel).getByTestId('user-info-button')).toBeTruthy();
+    });
+
+    // Open modal to update status
+    await act(async () => {
+      userEvent.click(within(panel).getByTestId('update-status-button'));
+    });
+
+    const updateModal = screen.getByTestId('select-modal');
+
+    await waitFor(() => {
+      expect(within(updateModal).queryByText('Order #2 status')).toBeTruthy();
+    });
+
+    // Mock error response
+    mockAxios.onPatch(`${baseUrl}/api/admin/orders/2`).reply(404, { error: 'Order not found' });
+    
+    await act(async () => {
+      userEvent.click(within(updateModal).getByTestId('confirm-button'));
+    });
+
+    let toastNotification = screen.getByTestId('alert-wrapper');
+    
+    await waitFor(() => {
+      expect(within(toastNotification).queryByText('Order not found')).toBeTruthy();
+    });
+
+    // Close alert dialog to clear error
+    await act(async () => {
+      userEvent.click(within(toastNotification).getByRole('button', { hidden: true }));
+    });
+
+    // Mock success response
+    mockAxios.onPatch(`${baseUrl}/api/admin/orders/2`).reply(200, mockedUpdatedOrderData);
+    
+    await act(async () => {
+      userEvent.click(within(updateModal).getByTestId('confirm-button'));
+    });
+
+    toastNotification = screen.getByTestId('alert-wrapper');
+    
+    await waitFor(() => {
+      expect(within(toastNotification).queryByText('Order updated successfully')).toBeTruthy();
+    });
+    
+    // Update modal should not be visible
+    await waitFor(() => {
+      expect(updateModal).not.toBeInTheDocument();
+    });
   });
 });

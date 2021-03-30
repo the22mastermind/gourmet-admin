@@ -4,13 +4,32 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.login-page {
+.wrapper {
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #a4c49a;
-  padding: 24px;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.login-img {
+  height: 100%;
+  width: 100%;
+}
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-img {
+  height: 80px;
+  margin-bottom: 12px;
 }
 
 .form-wrapper {
@@ -27,15 +46,36 @@ body {
 }
 
 .notfound-page {
-  height: 100vh;
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding: 0px !important;
 }
 
 .center {
   text-align: center;
 }
 
-@media (min-width: 600px) {}
+.page-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.page-title {
+  margin: 12px 0px;
+}
+
+@media (max-width: 800px) {
+  .login-page {
+    margin: 24px;
+  }
+
+  .img-grid {
+    display: none;
+  }
+
+  .form-wrapper {
+    width: auto;
+  }
+}
