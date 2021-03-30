@@ -6,7 +6,7 @@ const dataReducer = (state, action) => {
         ordersList: action.payload,
       };
     default:
-      return state;
+      throw new Error();
   }
 };
 

@@ -12,23 +12,18 @@ describe('Authentication', () => {
   });
 
   it('Should trigger network error', () => {
-    // Mock API response for failed logout
-    cy.intercept('POST', '/api/auth/login', { statusCode: 503, body: { error: 'Network Error' } });
+    // Mock network error
+    cy.intercept('POST', '/api/auth/login', { forceNetworkError: true });
 
     // Invalid credentials
     cy.get('form').within(() => {
-      cy.findByLabelText('phoneNumber').type('+250721111100').should('have.value', '+250721111100');
-      cy.findByLabelText('password').type('@1helloworld').should('have.value', '@1helloworld');
+      cy.findByLabelText('phoneNumber').clear().type('+250721111100').should('have.value', '+250721111100');
+      cy.findByLabelText('password').clear().type('@1helloworld').should('have.value', '@1helloworld');
       cy.findByRole('button', { name: /Login/i }).click();
     });
 
     // Trigger network error message
     cy.findByText('Network Error').should('exist');
-
-    // Close Snackbar
-    cy.findByRole('alert').within(() => {
-      cy.findByRole('button').click();
-    });
   });
 
   it('Should display validation error and user not found', () => {
@@ -53,20 +48,14 @@ describe('Authentication', () => {
       cy.findByText('Phone number must include country code eg. +250').should('exist');
       cy.findByText('Password length must be between 6 and 20, with at least one number and a symbol').should('exist');
     });
-    
-    // Clear inputs
-    cy.get('form').within(() => {
-      cy.findByLabelText('phoneNumber').clear();
-      cy.findByLabelText('password').clear();
-    });
 
     // Mock API response
     cy.intercept('POST', '/api/auth/login', { statusCode: 404, body: { error: 'User not found' } });
     
     // Invalid credentials
     cy.get('form').within(() => {
-      cy.findByLabelText('phoneNumber').type('+250721111111').should('have.value', '+250721111111');
-      cy.findByLabelText('password').type('@2helloworld').should('have.value', '@2helloworld');
+      cy.findByLabelText('phoneNumber').clear().type('+250721111111').should('have.value', '+250721111111');
+      cy.findByLabelText('password').clear().type('@2helloworld').should('have.value', '@2helloworld');
       cy.findByRole('button', { name: /Login/i }).click();
     });
 

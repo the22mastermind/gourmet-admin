@@ -11,7 +11,7 @@ const alertReducer = (state, action) => {
         alert: null,
       };
     default:
-      return state;
+      throw new Error();
   }
 };
 
