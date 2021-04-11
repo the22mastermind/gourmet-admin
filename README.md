@@ -37,3 +37,32 @@ Gourmet Admin is a web app that helps the admin/manager of Gourmet restaurant to
 ## Author
 
 Bertrand Masabo
+
+## Getting started
+
+### Running locally
+
+- Ensure you have Node 12+ installed on your machine
+- Clone this repo and cd into the project root directory
+  ```
+  $ git clone https://github.com/the22mastermind/gourmet-admin.git && cd gourmet-admin
+  ```
+- Install dependencies
+  ```
+  $ yarn install
+  ```
+- Run server and launch app in the browser
+  ```
+  $ yarn start --open
+  ```
+
+### Testing locally
+
+- Unit & integration tests:
+  ```
+  $ yarn test
+  ```
+- End to end tests:
+  ```
+  $ yarn test:e2e
+  ```

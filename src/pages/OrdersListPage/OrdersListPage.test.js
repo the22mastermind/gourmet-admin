@@ -191,7 +191,7 @@ describe('<OrdersListPage />', () => {
     await act(async () => {
       userEvent.click(within(updateModal).getByTestId('cancel-button'));
     });
-    
+
     // Update status modal should not be visible
     await waitFor(() => {
       expect(updateModal).not.toBeInTheDocument();
@@ -214,7 +214,7 @@ describe('<OrdersListPage />', () => {
     await act(async () => {
       userEvent.click(within(userInfoModal).getByTestId('close-dialog-button'));
     });
-    
+
     // User info modal should not be visible
     await waitFor(() => {
       expect(userInfoModal).not.toBeInTheDocument();

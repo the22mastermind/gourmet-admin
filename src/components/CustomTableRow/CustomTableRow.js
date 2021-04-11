@@ -108,7 +108,7 @@ const CustomTableRow = ({ row }) => {
         <TableCell align="center">
           <IconButton
             aria-label="expand row"
-            data-testid={'row-details-button'}
+            data-testid="row-details-button"
             size="small"
             onClick={() => setOpen(!open)}
           >

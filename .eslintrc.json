@@ -49,12 +49,7 @@
         "react/jsx-props-no-spreading": "off",
         "import/no-extraneous-dependencies": "off",
         "no-nested-ternary": "off",
-        "import/no-unresolved": [
-            2,
-            {
-                "ignore": ["*.test.js"]
-            }
-        ]
+        "import/no-unresolved": "off"
     },
     "globals": {
         "jest": true,

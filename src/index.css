@@ -1,3 +1,10 @@
+html,
+body,
+#root,
+.wrapper {
+  height: 100%;
+}
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -5,7 +12,6 @@ body {
 }
 
 .wrapper {
-  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,7 +39,7 @@ body {
 }
 
 .form-wrapper {
-  width: 320px;
+  width: 80%;
   padding: 24px;
   border: 2px solid #f7f8f8;
   border-radius: 6px;
@@ -66,7 +72,43 @@ body {
   margin: 12px 0px;
 }
 
-@media (max-width: 800px) {
+.img-grid {
+  display: none;
+}
+
+/* Small devices */
+@media (min-width: 576px) {
+  html,
+  body,
+  #root,
+  .wrapper {
+    height: auto;
+  }
+}
+
+/* Small devices - landscape */
+@media (min-width: 768px) {
+  html,
+  body,
+  #root,
+  .wrapper {
+    height: 100%;
+  }
+
+  .form-wrapper {
+    width: 320px;
+  }
+}
+
+/* Medium devices - tablets */
+@media (min-width: 992px) {
+  html,
+  body,
+  #root,
+  .wrapper {
+    height: 100%;
+  }
+
   .login-page {
     margin: 24px;
   }
@@ -76,6 +118,28 @@ body {
   }
 
   .form-wrapper {
-    width: auto;
+    width: 320px;
+  }
+}
+
+/* Large and extra large devices */
+@media (min-width: 1200px) {
+  html,
+  body,
+  #root,
+  .wrapper {
+    height: 100%;
+  }
+
+  .login-page {
+    margin: 24px;
+  }
+
+  .img-grid {
+    display: block;
+  }
+
+  .form-wrapper {
+    width: 320px;
   }
 }
