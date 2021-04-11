@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const baseUrl = 'https://gourmetfood-api.herokuapp.com';
-// export const baseUrl = 'http://localhost:4000';
 
 /**
  * @description Returns the api response

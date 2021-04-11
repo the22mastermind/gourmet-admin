@@ -1,7 +1,11 @@
 import React from 'react';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import userEvent from '@testing-library/user-event';
 import { act, render, screen, waitFor } from 'customRender';
 import SelectModal from './SelectModal';
+
+const mockAxios = new MockAdapter(axios);
 
 const props = {
   openStatus: true,
@@ -17,25 +21,25 @@ describe('<SelectModal />', () => {
   });
   test('<SelectModal /> rendering', async () => {
     render(<SelectModal {...props} />);
-    
+
     expect(screen.queryByText('Order #1 status')).toBeInTheDocument();
     expect(screen.getByTestId('select-input')).toBeTruthy();
     expect(screen.getByTestId('cancel-button')).toBeTruthy();
     expect(screen.getByTestId('confirm-button')).toBeTruthy();
   });
-  
+
   test('<SelectModal /> cancel button press', async () => {
     render(<SelectModal {...props} />);
-    
+
     await act(async () => {
       userEvent.click(screen.getByTestId('cancel-button'));
     });
-    
+
     await waitFor(() => {
       expect(props.toggleOpenStatus).toHaveBeenCalled();
     });
   });
-  
+
   test('<SelectModal /> matches the snapshot', async () => {
     render(<SelectModal {...props} />);
 

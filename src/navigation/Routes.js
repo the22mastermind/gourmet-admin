@@ -17,9 +17,9 @@ const Routes = () => {
   return (
     <Router history={history}>
       <Switch>
-        <Route exact path="/" component={LoginPage}></Route>
-        <ProtectedRoute path="/dashboard" auth={auth} component={Dashboard}></ProtectedRoute>
-        <Route component={NotFound}></Route>
+        <Route exact path="/" component={LoginPage} />
+        <ProtectedRoute path="/dashboard" auth={auth} component={Dashboard} />
+        <Route component={NotFound} />
       </Switch>
     </Router>
   );

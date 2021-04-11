@@ -25,7 +25,7 @@ const StyledTableCell = withStyles((theme) => ({
 
 const renderHeader = (tableHeadings) => (
   <TableRow>
-    {tableHeadings.map((heading) => heading.name === 'Amount' || heading.name === 'PaymentId' || heading.name === 'Status' ? (
+    {tableHeadings.map((heading) => (heading.name === 'Amount' || heading.name === 'PaymentId' || heading.name === 'Status' ? (
       <Hidden xsDown key={heading.id}>
         <StyledTableCell>
           {heading.name}
@@ -35,7 +35,7 @@ const renderHeader = (tableHeadings) => (
       <StyledTableCell key={heading.id}>
         {heading.name}
       </StyledTableCell>
-    ))}
+    )))}
   </TableRow>
 );
 
@@ -50,7 +50,7 @@ const CustomTable = ({ tableHeadings, data }) => {
 
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="collapsible table"  data-testid="orders-table">
+      <Table aria-label="collapsible table" data-testid="orders-table">
         <TableHead>
           {renderHeader(tableHeadings)}
         </TableHead>

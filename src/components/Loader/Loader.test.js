@@ -8,7 +8,7 @@ describe('<Loader />', () => {
     const component = screen.getByTestId('loader');
     expect(component).toBeInTheDocument();
   });
-  
+
   test('<Loader /> component should match snapshot', () => {
     render(<Loader color="secondary" />);
     expect(screen).toMatchSnapshot();

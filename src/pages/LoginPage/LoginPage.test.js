@@ -2,7 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import userEvent from '@testing-library/user-event';
 import MockAdapter from 'axios-mock-adapter';
-import { render, screen, fireEvent, waitFor, act, within } from 'customRender';
+import {
+  render, screen, fireEvent, waitFor, act, within,
+} from 'customRender';
 import LoginPage from './LoginPage';
 import { baseUrl } from '../../utils/api';
 

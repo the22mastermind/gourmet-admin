@@ -211,13 +211,13 @@ describe('<OrdersListPage />', () => {
 
     // Mock error response
     mockAxios.onPatch(`${baseUrl}/api/admin/orders/2`).reply(404, { error: 'Order not found' });
-    
+
     await act(async () => {
       userEvent.click(within(updateModal).getByTestId('confirm-button'));
     });
 
     let toastNotification = screen.getByTestId('alert-wrapper');
-    
+
     await waitFor(() => {
       expect(within(toastNotification).queryByText('Order not found')).toBeTruthy();
     });
@@ -229,17 +229,17 @@ describe('<OrdersListPage />', () => {
 
     // Mock success response
     mockAxios.onPatch(`${baseUrl}/api/admin/orders/2`).reply(200, mockedUpdatedOrderData);
-    
+
     await act(async () => {
       userEvent.click(within(updateModal).getByTestId('confirm-button'));
     });
 
     toastNotification = screen.getByTestId('alert-wrapper');
-    
+
     await waitFor(() => {
       expect(within(toastNotification).queryByText('Order updated successfully')).toBeTruthy();
     });
-    
+
     // Update modal should not be visible
     await waitFor(() => {
       expect(updateModal).not.toBeInTheDocument();
